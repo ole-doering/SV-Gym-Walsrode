@@ -6,7 +6,9 @@ Inhalt:
 Funktionsweise:
 
 Versionshinweise:
-23.09.26 23:25 : Als Versuch das repository öffentlich gemacht, um testweise die Seite zu hosten. Index.html von Jarne in main führt zu 404 error beim öffnen. Hypothese: Dateiname mit großem I sorgt für Probleme.
+23.09.26 23:25 : Als Versuch das repository öffentlich gemacht, um testweise die Seite zu hosten. Index.html von Jarne in main führt zu 404 error beim öffnen. Hypothese: Dateiname mit großem I sorgt für Probleme. OD
+
+23.09.26 23:44 : Hypothese bestätigt. Noch zu tun: Seite gestalten/ Dateistruktur korrigieren/ Readme/ Bereinigen uvm… OD
 
 Bearbeitungsanweisungen:
 
