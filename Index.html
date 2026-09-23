@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SV Gymnasium Walsrode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    --ink:#28242f;
+    --ink-soft:#514c5c;
+    --heather:#8a6c98;
+    --heather-deep:#5f4b6b;
+    --heather-tint:#efe7f2;
+    --moss:#516b55;
+    --moss-tint:#e9efe8;
+    --sand:#f4f0e9;
+    --paper:#ffffff;
+    --line:#ddd4c8;
+    --danger:#8a3b3b;
+    --radius:3px;
+    --serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --sans:"Work Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#ece7f0; --ink-soft:#c3bcce; --heather:#c3a6d1; --heather-deep:#e2caee;
+      --heather-tint:#332c3c; --moss:#9ac09c; --moss-tint:#26301f;
+      --sand:#1b1820; --paper:#252030; --line:#433c50; --danger:#e0a3a3;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#ece7f0; --ink-soft:#c3bcce; --heather:#c3a6d1; --heather-deep:#e2caee;
+    --heather-tint:#332c3c; --moss:#9ac09c; --moss-tint:#26301f;
+    --sand:#1b1820; --paper:#252030; --line:#433c50; --danger:#e0a3a3;
+  }
+  html{ scroll-padding-top:env(safe-area-inset-top,0px); }
+  *,*::before,*::after{ box-sizing:inherit; }
+  body{
+    margin:0; background:var(--sand); color:var(--ink);
+    font-family:var(--sans); font-size:1rem; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  h1,h2,h3{ font-family:var(--serif); font-weight:600; margin:0 0 .5em; color:var(--ink); letter-spacing:-.01em; }
+  a{ color:var(--heather-deep); text-decoration-thickness:1.5px; text-underline-offset:2px; }
+  a:hover{ color:var(--heather); }
+  :focus-visible{ outline:2px solid var(--heather); outline-offset:2px; }
+  button{ font-family:var(--sans); cursor:pointer; }
+  .container{ max-width:760px; margin:0 auto; padding:2.2rem 1.25rem 4rem; }
+  .wide{ max-width:920px; }
+
+  /* header */
+  header.site-header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+    background:color-mix(in srgb, var(--sand) 92%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    max-width:920px; margin:0 auto; padding:.9rem 1.25rem;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  .brand{ display:flex; flex-direction:column; text-decoration:none; color:var(--ink); min-width:0; }
+  .brand-mark{ font-family:var(--serif); font-weight:600; font-size:1.15rem; line-height:1.2; }
+  .brand-tag{ font-size:.78rem; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .header-actions{ display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
+  .icon-btn{
+    border:1px solid var(--line); background:var(--paper); color:var(--ink);
+    border-radius:50%; width:2.2rem; height:2.2rem; display:flex; align-items:center; justify-content:center;
+    font-size:1rem; padding:0;
+  }
+  .icon-btn:hover{ border-color:var(--heather); }
+  .admin-pill{
+    font-size:.72rem; background:var(--heather-tint); color:var(--heather-deep);
+    border-radius:99px; padding:.2rem .6rem; white-space:nowrap;
+  }
+
+  /* tabs */
+  .tabbar-wrap{ background:var(--paper); border-bottom:1px solid var(--line); }
+  .tabbar{
+    max-width:920px; margin:0 auto; padding:0 1.25rem;
+    display:flex; gap:1.4rem; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabbar::-webkit-scrollbar{ display:none; }
+  .tab{
+    flex:0 0 auto; padding:.75rem .1rem; font-size:.88rem; color:var(--ink-soft);
+    text-decoration:none; border-bottom:2px solid transparent; white-space:nowrap;
+  }
+  .tab[aria-current="page"]{ color:var(--ink); border-bottom-color:var(--heather); font-weight:600; }
+  .tab:hover{ color:var(--ink); }
+  .tab-edit{
+    flex:0 0 auto; align-self:center; font-size:.78rem; color:var(--heather-deep);
+    background:none; border:none; padding:.4rem .2rem;
+  }
+
+  /* hero */
+  .hero{ display:grid; grid-template-columns:1.3fr .7fr; gap:2rem; align-items:center; padding-top:.6rem; }
+  @media (max-width:640px){ .hero{ grid-template-columns:1fr; } }
+  .hero h1{ font-size:clamp(2rem,5vw,2.7rem); line-height:1.1; }
+  .hero .intro{ color:var(--ink-soft); max-width:52ch; }
+  .hero .intro p{ margin:0 0 .8em; }
+  .sprig{ justify-self:center; opacity:.9; }
+
+  /* home cards */
+  .links-list{ margin-top:2.4rem; border-top:1px solid var(--line); }
+  .link-row{
+    display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+    padding:1.15rem 0; border-bottom:1px solid var(--line);
+  }
+  .link-row a.link-main{ font-family:var(--serif); font-size:1.15rem; font-weight:500; color:var(--ink); text-decoration:none; }
+  .link-row a.link-main:hover{ color:var(--heather-deep); }
+  .link-row .link-desc{ display:block; font-family:var(--sans); font-size:.85rem; color:var(--ink-soft); margin-top:.2rem; font-weight:400; }
+  .link-row .link-arrow{ color:var(--heather); flex-shrink:0; font-size:1.1rem; }
+  .row-admin{ display:flex; gap:.4rem; flex-shrink:0; }
+
+  /* content page */
+  .page-head{ border-bottom:1px solid var(--line); padding-bottom:1.2rem; margin-bottom:1.6rem; display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
+  .content h2{ font-size:1.4rem; margin-top:1.4em; }
+  .content h3{ font-size:1.15rem; }
+  .content p{ margin:0 0 1em; }
+  .content ul,.content ol{ padding-left:1.3em; margin:0 0 1em; }
+  .content li{ margin-bottom:.35em; }
+  .content a{ word-break:break-word; }
+  .content blockquote{ margin:0 0 1em; padding-left:1em; border-left:3px solid var(--heather); color:var(--ink-soft); }
+  .empty-note{ color:var(--ink-soft); font-style:italic; }
+
+  /* small ui */
+  .btn{
+    display:inline-flex; align-items:center; gap:.4rem; border:1px solid var(--line); background:var(--paper);
+    color:var(--ink); padding:.5rem .9rem; border-radius:var(--radius); font-size:.85rem;
+  }
+  .btn:hover{ border-color:var(--heather); }
+  .btn-primary{ background:var(--heather-deep); border-color:var(--heather-deep); color:#fff; }
+  .btn-primary:hover{ background:var(--heather); border-color:var(--heather); }
+  .btn-danger{ color:var(--danger); }
+  .btn-ghost{ border-color:transparent; background:none; padding:.4rem .5rem; }
+  .btn-sm{ padding:.32rem .6rem; font-size:.78rem; }
+
+  footer.site-footer{ border-top:1px solid var(--line); }
+  .footer-inner{ max-width:920px; margin:0 auto; padding:2rem 1.25rem 3rem; color:var(--ink-soft); font-size:.85rem; }
+  .footer-inner .content{ font-size:.85rem; }
+
+  /* modal */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(20,16,24,.45); z-index:100;
+    display:flex; align-items:flex-start; justify-content:center; padding:4vh 1rem;
+    overflow-y:auto;
+  }
+  .modal{
+    background:var(--paper); border-radius:6px; max-width:600px; width:100%;
+    padding:1.6rem; margin-top:env(safe-area-inset-top,0px);
+  }
+  .modal h3{ margin-bottom:1.1rem; }
+  .field{ margin-bottom:1.1rem; }
+  .field label{ display:block; font-size:.82rem; font-weight:600; margin-bottom:.35rem; }
+  .field .hint{ font-size:.76rem; color:var(--ink-soft); font-weight:400; display:block; margin-top:.2rem; }
+  input[type="text"],input[type="url"],textarea{
+    width:100%; font-family:var(--sans); font-size:.95rem; padding:.55rem .65rem;
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--sand); color:var(--ink);
+  }
+  textarea{ min-height:9rem; resize:vertical; font-family:ui-monospace,Menlo,monospace; font-size:.85rem; line-height:1.5; }
+  .radio-row,.check-row{ display:flex; gap:1.3rem; flex-wrap:wrap; }
+  .radio-row label,.check-row label{ display:flex; align-items:center; gap:.4rem; font-size:.88rem; font-weight:400; }
+  .toolbar{ display:flex; gap:.3rem; margin-bottom:.4rem; flex-wrap:wrap; }
+  .toolbar button{
+    border:1px solid var(--line); background:var(--sand); color:var(--ink);
+    border-radius:var(--radius); font-size:.78rem; padding:.3rem .55rem;
+  }
+  .toolbar button.active-tab{ background:var(--heather-deep); color:#fff; border-color:var(--heather-deep); }
+  .preview-box{ border:1px solid var(--line); border-radius:var(--radius); padding:.8rem .9rem; background:var(--sand); }
+  .modal-actions{ display:flex; justify-content:space-between; align-items:center; margin-top:1.4rem; gap:.6rem; flex-wrap:wrap; }
+  .modal-actions .right{ display:flex; gap:.5rem; margin-left:auto; }
+  .manage-list{ border-top:1px solid var(--line); margin-top:.5rem; }
+  .manage-row{ display:flex; align-items:center; gap:.5rem; padding:.6rem 0; border-bottom:1px solid var(--line); }
+  .manage-row .mlabel{ flex:1; min-width:0; }
+  .manage-row .mlabel strong{ display:block; font-size:.92rem; }
+  .manage-row .mlabel span{ font-size:.74rem; color:var(--ink-soft); }
+  .manage-actions{ display:flex; gap:.25rem; flex-shrink:0; }
+  .tag{ display:inline-block; font-size:.68rem; background:var(--moss-tint); color:var(--moss); border-radius:99px; padding:.1rem .5rem; margin-right:.3rem; }
+
+  .toast{
+    position:fixed; left:50%; transform:translateX(-50%);
+    bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));
+    background:var(--ink); color:var(--sand); padding:.7rem 1.1rem; border-radius:99px;
+    font-size:.85rem; z-index:200; max-width:90vw;
+  }
+  .toast.error{ background:var(--danger); }
+  .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div id="page-root"></div>
+<div id="modal-root"></div>
+
+<script id="site-data" type="application/json">
+{"meta":{"title":"SV Gymnasium Walsrode","tagline":"Schülervertretung des Gymnasiums Walsrode"},"adminPasswordHash":"9948853c7474932127748ceef204aef89a4218fdc734911358c2c5d1332b0c10","home":{"intro":"Wir sind die Schülervertretung (SV) des Gymnasiums Walsrode. Wir setzen uns für die Interessen aller Schüler:innen ein, bringen Ideen ins Gespräch mit der Schulleitung und organisieren Projekte, die unseren Schulalltag besser machen.\n\nAuf dieser Seite haltet ihr euch über unsere Arbeit auf dem Laufenden und findet, was gerade ansteht."},"footer":{"text":"**Kontakt:** sv@gymnasium-walsrode.de (Adresse eintragen)\n\n**Verbindungslehrkräfte:** Namen eintragen\n\n**Impressum:** Diese Seite wird von der Schülervertretung des Gymnasiums Walsrode gepflegt, in Abstimmung mit der Schulleitung. Verantwortlich im Sinne des Presserechts: Gymnasium Walsrode, Anschrift eintragen."},"items":[{"id":"vorstellung-sv","label":"Vorstellung unserer SV","type":"page","showOnHome":true,"showInNav":false,"order":0,"description":"Wer wir sind und wie wir arbeiten","content":"## Wer wir sind\n\nDie SV besteht aus gewählten Klassen- und Schulsprecher:innen aller Jahrgänge. Wir treffen uns regelmäßig, um Anliegen aus den Klassen zu sammeln und gemeinsam Projekte anzustoßen.\n\n**Schulsprecher:in:** Name eintragen\n**Stellvertretung:** Name eintragen\n**Verbindungslehrkraft:** Name eintragen\n\n## Wie wir arbeiten\n\n- Wir sammeln Ideen und Beschwerden aus allen Klassen\n- Wir vertreten diese Anliegen gegenüber der Schulleitung\n- Wir organisieren eigene Projekte und Aktionen\n- Wir informieren regelmäßig über unsere Arbeit\n\n*Dieser Text kann von der SV jederzeit aktualisiert werden – zum Beispiel mit aktuellen Namen, einem Gruppenfoto-Hinweis oder den SV-Sitzungsterminen.*"},{"id":"aktuelle-themen","label":"Aktuelle Themen","type":"page","showOnHome":true,"showInNav":false,"order":1,"description":"Woran wir gerade arbeiten","content":"Hier stellen wir vor, welche Themen die SV gerade beschäftigen. Diese Seite sollte regelmäßig aktualisiert werden, damit sie nicht veraltet.\n\n- **Thema 1:** Kurzbeschreibung, was gerade passiert\n- **Thema 2:** Kurzbeschreibung, was gerade passiert\n- **Thema 3:** Kurzbeschreibung, was gerade passiert\n\n*Tipp für die Bearbeitung: Alte, erledigte Themen können unter „Was wir bereits erreicht haben“ verschoben werden.*"},{"id":"instagram","label":"SV Instagram","type":"link","url":"https://www.instagram.com/","showOnHome":true,"showInNav":false,"order":2,"description":"Folgt uns für aktuelle Einblicke"},{"id":"schule-mit-courage","label":"Schule mit Courage","type":"page","showOnHome":false,"showInNav":true,"order":3,"description":"","content":"## Schule ohne Rassismus – Schule mit Courage\n\nUnsere Schule ist Teil des bundesweiten Netzwerks „Schule ohne Rassismus – Schule mit Courage“. Das bedeutet: Wir setzen uns aktiv gegen Diskriminierung, Ausgrenzung und Rassismus ein und übernehmen dafür Verantwortung.\n\n### Was das für uns bedeutet\n\n- Wir organisieren Projekttage und Aktionen zum Thema\n- Wir haben Ansprechpersonen für Betroffene\n- Wir arbeiten mit externen Partnern zusammen\n\n*Hier können Termine, Paten (bekannte Personen, die das Projekt unterstützen) und aktuelle Aktionen ergänzt werden.*"},{"id":"toilettenprojekt","label":"Toilettenprojekt","type":"page","showOnHome":false,"showInNav":true,"order":4,"description":"","content":"## Das Toilettenprojekt\n\nSaubere, funktionierende Toiletten gehören zu einem guten Schulalltag – deshalb setzt sich die SV für die Verbesserung der Schultoiletten ein.\n\n### Ziele\n\n- Regelmäßige Reinigung sicherstellen\n- Ausstattung (Seife, Papier, Beleuchtung) verbessern\n- Ansprechpartner für Mängelmeldungen\n\n### Aktueller Stand\n\n*Hier den aktuellen Projektstand eintragen – z. B. Gespräche mit der Schulleitung, geplante Maßnahmen, Umfrageergebnisse.*"},{"id":"protokolle","label":"Protokolle","type":"page","showOnHome":false,"showInNav":true,"order":5,"description":"","content":"## SV-Sitzungsprotokolle\n\nHier findet ihr die Protokolle unserer Sitzungen. Neue Protokolle bitte oben ergänzen.\n\n**Hinweis für die Bearbeitung:** Protokolle können entweder direkt hier als Text eingefügt oder als Link zu einer Cloud-Ablage (z. B. Schul-Cloud) eingetragen werden, zum Beispiel so:\n\n- [Protokoll vom TT.MM.JJJJ](https://beispiel-link.de)\n- [Protokoll vom TT.MM.JJJJ](https://beispiel-link.de)"},{"id":"ziele","label":"Ziele der SV","type":"page","showOnHome":false,"showInNav":true,"order":6,"description":"","content":"## Unsere Ziele für dieses Schuljahr\n\n1. Ziel eintragen\n2. Ziel eintragen\n3. Ziel eintragen\n\n*Diese Liste sollte die aktuelle SV zu Beginn jedes Schuljahres überarbeiten.*"},{"id":"erreicht","label":"Was wir bereits erreicht haben","type":"page","showOnHome":false,"showInNav":true,"order":7,"description":"","content":"## Erfolge der letzten Jahre\n\n- **Schuljahr 20xx/xx:** Erfolg eintragen\n- **Schuljahr 20xx/xx:** Erfolg eintragen\n\n*Abgeschlossene Themen aus „Aktuelle Themen“ können hierher verschoben werden, damit die Arbeit der SV sichtbar bleibt.*"},{"id":"kreisschuelerrat","label":"Vorstellung des Kreisschülerrats","type":"page","showOnHome":false,"showInNav":true,"order":8,"description":"","content":"## Der Kreisschülerrat (KSR)\n\nDer Kreisschülerrat vertritt die Interessen aller Schüler:innen im Landkreis gegenüber Politik und Verwaltung. Unsere SV entsendet Vertreter:innen in den KSR.\n\n**Unsere Vertretung im KSR:** Name eintragen\n\n**Kontakt / Links:** Link zur Website des Kreisschülerrats eintragen"}]}
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  var state = JSON.parse(document.getElementById('site-data').textContent);
+  var canEdit = false;
+  var claudeCanEdit = false;
+  var localAuthed = false;
+  var artifactNS = null;
+  var modalDraft = null;
+  var toastTimer = null;
+  var runsInClaude = !!(window.claude && typeof window.claude.use === 'function');
+
+  function refreshCanEdit(){ canEdit = claudeCanEdit || localAuthed; }
+
+  async function sha256Hex(text){
+    if(!(window.crypto && window.crypto.subtle)) return null;
+    var buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.prototype.map.call(new Uint8Array(buf), function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+  }
+
+  /* ---------- helpers ---------- */
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function safeJson(obj){ return JSON.stringify(obj).replace(/</g,'\\u003c'); }
+  function slugify(str){
+    var map = {'ä':'ae','ö':'oe','ü':'ue','ß':'ss','Ä':'ae','Ö':'oe','Ü':'ue'};
+    var s = String(str||'').replace(/[äöüßÄÖÜ]/g,function(c){ return map[c]; });
+    s = s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    return s || 'seite';
+  }
+  function uniqueId(base){
+    var id = base, n = 2;
+    var ids = state.items.map(function(it){ return it.id; });
+    while(ids.indexOf(id) !== -1){ id = base + '-' + n; n++; }
+    return id;
+  }
+  function md(text){
+    try{ return window.marked ? window.marked.parse(text||'') : '<p>'+esc(text||'')+'</p>'; }
+    catch(e){ return '<p>'+esc(text||'')+'</p>'; }
+  }
+  function byOrder(a,b){ return a.order - b.order; }
+  function homeItems(){ return state.items.filter(function(i){ return i.showOnHome; }).sort(byOrder); }
+  function navItems(){ return state.items.filter(function(i){ return i.showInNav; }).sort(byOrder); }
+  function findItem(id){ return state.items.filter(function(i){ return i.id===id; })[0] || null; }
+
+  function parseRoute(){
+    var h = location.hash.replace(/^#\/?/,'');
+    if(!h) return {type:'home'};
+    var parts = h.split('/');
+    if(parts[0]==='seite' && parts[1]) return {type:'page', id:decodeURIComponent(parts[1])};
+    return {type:'notfound'};
+  }
+
+  /* ---------- toast ---------- */
+  function showToast(msg, kind){
+    var root = document.getElementById('modal-root');
+    var el = document.createElement('div');
+    el.className = 'toast' + (kind==='error' ? ' error' : '');
+    el.setAttribute('role','status');
+    el.textContent = msg;
+    root.appendChild(el);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.remove(); }, 4200);
+  }
+
+  /* ---------- rendering: shell ---------- */
+  function headerHtml(){
+    return '' +
+    '<header class="site-header"><div class="header-inner">' +
+      '<a class="brand" href="#/">' +
+        '<span class="brand-mark">' + esc(state.meta.title) + '</span>' +
+        '<span class="brand-tag">' + esc(state.meta.tagline) + '</span>' +
+      '</a>' +
+      '<div class="header-actions">' +
+        (canEdit ?
+          '<span class="admin-pill">Bearbeitungsmodus</span>' +
+          '<button class="icon-btn" title="Seiten verwalten" data-action="open-settings" aria-label="Seiten und Einstellungen verwalten">&#9881;</button>' +
+          (localAuthed ? '<button class="icon-btn" title="Abmelden" data-action="logout" aria-label="Abmelden">&#128275;</button>' : '')
+        : (!claudeCanEdit ? '<button class="icon-btn" title="Als Admin anmelden" data-action="open-login" aria-label="Als Admin anmelden">&#128272;</button>' : '')
+        ) +
+      '</div>' +
+    '</div></header>';
+  }
+
+  function tabsHtml(route){
+    var items = navItems();
+    if(items.length===0 && !canEdit) return '';
+    var html = '<div class="tabbar-wrap"><nav class="tabbar" aria-label="Themen und Projekte">';
+    items.forEach(function(it){
+      var active = route.type==='page' && route.id===it.id;
+      html += '<a class="tab" href="#/seite/' + encodeURIComponent(it.id) + '"' + (active?' aria-current="page"':'') + '>' + esc(it.label) + '</a>';
+    });
+    if(canEdit){
+      html += '<button class="tab-edit" data-action="add-item" data-prefill-nav="1">+ Punkt hinzufügen</button>';
+    }
+    html += '</nav></div>';
+    return html;
+  }
+
+  function footerHtml(){
+    return '<footer class="site-footer"><div class="footer-inner">' +
+      '<div class="content">' + md(state.footer.text) + '</div>' +
+      (canEdit ? '<button class="btn btn-sm" style="margin-top:.8rem" data-action="open-settings">Fußzeile &amp; Einstellungen bearbeiten</button>' : '') +
+      '</div></footer>';
+  }
+
+  function sprigSvg(){
+    return '<svg class="sprig" width="140" height="170" viewBox="0 0 140 170" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<path d="M70 160 C 68 110, 66 70, 62 20" stroke="var(--moss)" stroke-width="2" stroke-linecap="round"/>' +
+      '<path d="M70 158 C 74 112, 78 68, 84 22" stroke="var(--moss)" stroke-width="2" stroke-linecap="round"/>' +
+      [26,40,54,68,82,96,110,124].map(function(y,i){
+        var side = i%2===0 ? -1 : 1;
+        var x = 66 + side*4;
+        return '<ellipse cx="' + (x + side*16) + '" cy="' + y + '" rx="9" ry="6" transform="rotate(' + (side*35) + ' ' + (x+side*16) + ' ' + y + ')" fill="var(--heather)" opacity="' + (0.55 + (i%3)*0.12) + '"/>';
+      }).join('') +
+      '</svg>';
+  }
+
+  /* ---------- rendering: pages ---------- */
+  function homeHtml(){
+    var items = homeItems();
+    var html = '<section class="hero">' +
+      '<div><h1>' + esc(state.meta.title) + '</h1><div class="intro">' + md(state.home.intro) + '</div></div>' +
+      sprigSvg() +
+      '</section>';
+    if(canEdit){
+      html += '<button class="btn btn-sm" data-action="open-settings">Begrüßungstext bearbeiten</button>';
+    }
+    html += '<div class="links-list">';
+    items.forEach(function(it){
+      html += linkRowHtml(it, 'home');
+    });
+    if(items.length===0){
+      html += '<p class="empty-note" style="padding:1rem 0;">Noch keine Startseiten-Links vorhanden.</p>';
+    }
+    html += '</div>';
+    if(canEdit){
+      html += '<button class="btn" style="margin-top:1.2rem" data-action="add-item" data-prefill-home="1">+ Neuen Startseiten-Punkt hinzufügen</button>';
+    }
+    return html;
+  }
+
+  function linkRowHtml(it, ctx){
+    var href = it.type==='link' ? esc(it.url||'#') : '#/seite/' + encodeURIComponent(it.id);
+    var target = it.type==='link' ? ' target="_blank" rel="noopener noreferrer"' : '';
+    var arrow = it.type==='link' ? '&#8599;' : '&#8250;';
+    var html = '<div class="link-row">' +
+      '<a class="link-main" href="' + href + '"' + target + '>' + esc(it.label) +
+        (it.description ? '<span class="link-desc">' + esc(it.description) + '</span>' : '') +
+      '</a>' +
+      '<span class="link-arrow" aria-hidden="true">' + arrow + '</span>' +
+      '</div>';
+    if(canEdit){
+      html = '<div class="link-row"><div style="min-width:0;flex:1;">' +
+        '<a class="link-main" href="' + href + '"' + target + '>' + esc(it.label) + '</a>' +
+        (it.description ? '<span class="link-desc">' + esc(it.description) + '</span>' : '') +
+        '</div>' +
+        '<div class="row-admin">' +
+          '<button class="btn btn-ghost btn-sm" title="Nach oben" data-action="move-item" data-id="' + esc(it.id) + '" data-list="' + ctx + '" data-dir="-1">&#8593;</button>' +
+          '<button class="btn btn-ghost btn-sm" title="Nach unten" data-action="move-item" data-id="' + esc(it.id) + '" data-list="' + ctx + '" data-dir="1">&#8595;</button>' +
+          '<button class="btn btn-ghost btn-sm" title="Bearbeiten" data-action="edit-item" data-id="' + esc(it.id) + '">&#9998;</button>' +
+        '</div></div>';
+    }
+    return html;
+  }
+
+  function pageHtml(id){
+    var it = findItem(id);
+    if(!it) return notFoundHtml();
+    if(it.type==='link'){
+      location.hash = '#/';
+      return '';
+    }
+    var html = '<article><div class="page-head"><h1 style="margin:0">' + esc(it.label) + '</h1>' +
+      (canEdit ? '<button class="btn btn-sm" data-action="edit-item" data-id="' + esc(it.id) + '">Bearbeiten</button>' : '') +
+      '</div>' +
+      '<div class="content">' + md(it.content) + '</div>' +
+      '<p style="margin-top:2rem"><a href="#/">&larr; Zur Startseite</a></p>' +
+      '</article>';
+    return html;
+  }
+
+  function notFoundHtml(){
+    return '<p>Diese Seite gibt es nicht (mehr). <a href="#/">Zur Startseite</a></p>';
+  }
+
+  function renderApp(){
+    var route = parseRoute();
+    if(route.type==='page'){
+      var it = findItem(route.id);
+      if(it && it.type==='link'){ location.hash = '#/'; return; }
+    }
+    var html = headerHtml() + tabsHtml(route) + '<main class="container">';
+    if(route.type==='home') html += homeHtml();
+    else if(route.type==='page') html += pageHtml(route.id);
+    else html += notFoundHtml();
+    html += '</main>' + footerHtml();
+    document.getElementById('page-root').innerHTML = html;
+  }
+
+  /* ---------- markdown editor component ---------- */
+  function mdEditorHtml(field, value, previewOpen){
+    var toolbar = '<div class="toolbar">' +
+      '<button type="button" data-action="fmt" data-target="' + field + '" data-fmt="h2">Überschrift</button>' +
+      '<button type="button" data-action="fmt" data-target="' + field + '" data-fmt="bold"><strong>F</strong></button>' +
+      '<button type="button" data-action="fmt" data-target="' + field + '" data-fmt="italic"><em>K</em></button>' +
+      '<button type="button" data-action="fmt" data-target="' + field + '" data-fmt="list">Liste</button>' +
+      '<button type="button" data-action="fmt" data-target="' + field + '" data-fmt="link">Link</button>' +
+      '<button type="button" class="' + (previewOpen?'active-tab':'') + '" data-action="toggle-preview" data-field="' + field + '">' + (previewOpen ? 'Text bearbeiten' : 'Vorschau') + '</button>' +
+      '</div>';
+    if(previewOpen){
+      return toolbar + '<div class="preview-box content">' + md(value) + '</div>';
+    }
+    return toolbar + '<textarea id="ta-' + field + '" data-field="' + field + '">' + esc(value) + '</textarea>' +
+      '<span class="hint">Formatierung mit Markdown: **fett**, *kursiv*, ## Überschrift, - Liste, [Text](Link)</span>';
+  }
+
+  /* ---------- modal: item editor ---------- */
+  function openItemEditor(existing){
+    modalDraft = existing ? JSON.parse(JSON.stringify(existing)) : {
+      id:null, label:'', type:'page', url:'', content:'', description:'',
+      showOnHome:false, showInNav:false, order: (state.items.length ? Math.max.apply(null,state.items.map(function(i){return i.order;}))+1 : 0)
+    };
+    modalDraft.previewOpen = false;
+    modalDraft._isNew = !existing;
+    renderModal();
+  }
+  function openItemEditorPrefill(home, nav){
+    openItemEditor(null);
+    modalDraft.showOnHome = !!home;
+    modalDraft.showInNav = !!nav;
+    renderModal();
+  }
+
+  function itemModalHtml(){
+    var d = modalDraft;
+    var isPage = d.type==='page';
+    return '<div class="modal-overlay" data-action="overlay-close">' +
+      '<div class="modal" role="dialog" aria-modal="true" aria-label="Punkt bearbeiten">' +
+      '<h3>' + (d._isNew ? 'Neuen Punkt hinzufügen' : 'Punkt bearbeiten') + '</h3>' +
+      '<div class="field"><label for="f-label">Titel</label>' +
+        '<input type="text" id="f-label" data-field="label" value="' + esc(d.label) + '"></div>' +
+      '<div class="field"><label>Wo soll dieser Punkt erscheinen?</label>' +
+        '<div class="check-row">' +
+          '<label><input type="checkbox" data-field="showOnHome" ' + (d.showOnHome?'checked':'') + '> Auf der Startseite</label>' +
+          '<label><input type="checkbox" data-field="showInNav" ' + (d.showInNav?'checked':'') + '> In der Themen-Leiste</label>' +
+        '</div></div>' +
+      '<div class="field"><label>Art des Punkts</label>' +
+        '<div class="radio-row">' +
+          '<label><input type="radio" name="itemtype" data-action="set-type" data-type="page" ' + (isPage?'checked':'') + '> Seite mit Inhalt</label>' +
+          '<label><input type="radio" name="itemtype" data-action="set-type" data-type="link" ' + (!isPage?'checked':'') + '> Externer Link</label>' +
+        '</div></div>' +
+      (d.showOnHome ? '<div class="field"><label for="f-desc">Kurzbeschreibung (auf der Startseite, optional)</label>' +
+        '<input type="text" id="f-desc" data-field="description" value="' + esc(d.description||'') + '"></div>' : '') +
+      (isPage ?
+        '<div class="field"><label>Inhalt</label>' + mdEditorHtml('content', d.content, d.previewOpen) + '</div>'
+        :
+        '<div class="field"><label for="f-url">Link-Adresse</label>' +
+        '<input type="url" id="f-url" data-field="url" placeholder="https://..." value="' + esc(d.url||'') + '"></div>'
+      ) +
+      '<div class="modal-actions">' +
+        (!d._isNew ? '<button class="btn btn-danger btn-sm" data-action="delete-item" data-id="' + esc(d.id) + '">Löschen</button>' : '<span></span>') +
+        '<div class="right">' +
+          '<button class="btn" data-action="close-modal">Abbrechen</button>' +
+          '<button class="btn btn-primary" data-action="save-item">' + (runsInClaude ? 'Speichern &amp; veröffentlichen' : 'Speichern &amp; Datei herunterladen') + '</button>' +
+        '</div>' +
+      '</div>' +
+      '</div></div>';
+  }
+
+  /* ---------- modal: login ---------- */
+  function openLogin(){
+    modalDraft = {kind:'login', password:'', error:''};
+    renderModal();
+  }
+  function loginModalHtml(){
+    var d = modalDraft;
+    return '<div class="modal-overlay" data-action="overlay-close">' +
+      '<div class="modal" role="dialog" aria-modal="true" aria-label="Admin-Anmeldung" style="max-width:380px">' +
+      '<h3>Als Admin anmelden</h3>' +
+      '<div class="field"><label for="f-pw">Passwort</label>' +
+        '<input type="password" id="f-pw" data-field="password" value="' + esc(d.password) + '" autocomplete="current-password"></div>' +
+      (d.error ? '<p style="color:var(--danger);font-size:.85rem;margin-top:-.6rem">' + esc(d.error) + '</p>' : '') +
+      '<div class="modal-actions"><span></span><div class="right">' +
+        '<button class="btn" data-action="close-modal">Abbrechen</button>' +
+        '<button class="btn btn-primary" data-action="do-login">Anmelden</button>' +
+      '</div></div>' +
+      '</div></div>';
+  }
+  async function doLogin(){
+    var pw = (modalDraft && modalDraft.password) || '';
+    var hash = await sha256Hex(pw);
+    if(hash && state.adminPasswordHash && hash === state.adminPasswordHash){
+      localAuthed = true;
+      try{ sessionStorage.setItem('sv_admin_authed','1'); }catch(e){}
+      refreshCanEdit();
+      modalDraft = null;
+      renderApp(); renderModal();
+      showToast('Angemeldet – ihr könnt jetzt bearbeiten.');
+    } else if(!hash){
+      modalDraft.error = 'Anmeldung braucht eine sichere Verbindung (https). Fragt beim Hosting nach.';
+      renderModal();
+    } else {
+      modalDraft.error = 'Falsches Passwort.';
+      renderModal();
+    }
+  }
+  function doLogout(){
+    localAuthed = false;
+    try{ sessionStorage.removeItem('sv_admin_authed'); }catch(e){}
+    refreshCanEdit();
+    renderApp();
+  }
+
+  /* ---------- modal: settings / manage ---------- */
+  function openSettings(){
+    modalDraft = {
+      kind:'settings',
+      title: state.meta.title, tagline: state.meta.tagline,
+      intro: state.home.intro, introPreviewOpen:false,
+      footer: state.footer.text, footerPreviewOpen:false,
+      newPassword:'', newPassword2:''
+    };
+    renderModal();
+  }
+
+  function settingsModalHtml(){
+    var d = modalDraft;
+    var all = state.items.slice().sort(byOrder);
+    var manageRows = all.map(function(it){
+      var tags = (it.showOnHome ? '<span class="tag">Startseite</span>' : '') + (it.showInNav ? '<span class="tag">Themen-Leiste</span>' : '');
+      return '<div class="manage-row">' +
+        '<div class="mlabel"><strong>' + esc(it.label) + '</strong><span>' + tags + (it.type==='link' ? '<span class="tag">Link</span>' : '') + '</span></div>' +
+        '<div class="manage-actions">' +
+          '<button class="btn btn-ghost btn-sm" data-action="edit-item-from-settings" data-id="' + esc(it.id) + '">&#9998;</button>' +
+        '</div></div>';
+    }).join('');
+    return '<div class="modal-overlay" data-action="overlay-close">' +
+      '<div class="modal" role="dialog" aria-modal="true" aria-label="Einstellungen">' +
+      '<h3>Seiten &amp; Einstellungen</h3>' +
+      '<div class="field"><label for="f-title">Seitentitel</label><input type="text" id="f-title" data-field="title" value="' + esc(d.title) + '"></div>' +
+      '<div class="field"><label for="f-tagline">Untertitel</label><input type="text" id="f-tagline" data-field="tagline" value="' + esc(d.tagline) + '"></div>' +
+      '<div class="field"><label>Begrüßungstext auf der Startseite</label>' + mdEditorHtml('intro', d.intro, d.introPreviewOpen) + '</div>' +
+      '<div class="field"><label>Fußzeile (z. B. Kontakt &amp; Impressum)</label>' + mdEditorHtml('footer', d.footer, d.footerPreviewOpen) + '</div>' +
+      '<div class="field"><label>Alle Punkte (Startseite &amp; Themen-Leiste)</label><div class="manage-list">' + manageRows + '</div>' +
+        '<button class="btn btn-sm" style="margin-top:.7rem" data-action="add-item">+ Neuen Punkt hinzufügen</button></div>' +
+      (!runsInClaude ? (
+      '<div class="field"><label>Admin-Passwort ändern (optional)</label>' +
+        '<input type="password" placeholder="Neues Passwort" data-field="newPassword" value="' + esc(d.newPassword) + '" style="margin-bottom:.5rem" autocomplete="new-password">' +
+        '<input type="password" placeholder="Neues Passwort wiederholen" data-field="newPassword2" value="' + esc(d.newPassword2) + '" autocomplete="new-password">' +
+        '<span class="hint">Leer lassen, um das Passwort nicht zu ändern. Gebt es sicher an die nächste SV weiter.</span></div>'
+      ) : '') +
+      '<p class="hint" style="margin:-.4rem 0 1rem">' + (runsInClaude ?
+        'Änderungen werden direkt veröffentlicht.' :
+        'Beim Speichern ladet ihr eine aktualisierte Datei herunter, die ihr auf eurem Webspace hochladen müsst, damit alle Besucher:innen die Änderung sehen.') + '</p>' +
+      '<div class="modal-actions"><span></span><div class="right">' +
+        '<button class="btn" data-action="close-modal">Abbrechen</button>' +
+        '<button class="btn btn-primary" data-action="save-settings">' + (runsInClaude ? 'Speichern & veröffentlichen' : 'Speichern & Datei herunterladen') + '</button>' +
+      '</div></div>' +
+      '</div></div>';
+  }
+
+  function renderModal(){
+    var root = document.getElementById('modal-root');
+    if(!modalDraft){ root.innerHTML=''; return; }
+    root.innerHTML = modalDraft.kind==='settings' ? settingsModalHtml() : (modalDraft.kind==='login' ? loginModalHtml() : itemModalHtml());
+    var first = root.querySelector('input, textarea');
+    if(first) first.focus();
+  }
+  function closeModal(){ modalDraft = null; renderModal(); }
+
+  /* ---------- textarea formatting helper ---------- */
+  function applyFormat(field, kind){
+    var ta = document.getElementById('ta-' + field);
+    if(!ta) return;
+    var start = ta.selectionStart, end = ta.selectionEnd;
+    var val = ta.value, sel = val.slice(start,end);
+    var before='',after='',placeholder='';
+    if(kind==='bold'){ before='**'; after='**'; placeholder='fett'; }
+    else if(kind==='italic'){ before='*'; after='*'; placeholder='kursiv'; }
+    else if(kind==='h2'){ before='## '; after=''; placeholder='Überschrift'; }
+    else if(kind==='list'){ before='- '; after=''; placeholder='Punkt'; }
+    else if(kind==='link'){ before='['; after='](https://)'; placeholder='Linktext'; }
+    var insertText = sel ? sel : placeholder;
+    var newVal = val.slice(0,start) + before + insertText + after + val.slice(end);
+    ta.value = newVal;
+    modalDraft[field] = newVal;
+    var pos = start + before.length + insertText.length;
+    ta.focus();
+    ta.setSelectionRange(pos,pos);
+  }
+
+  /* ---------- data mutations ---------- */
+  function moveItem(id, list, dir){
+    var items = (list==='home' ? homeItems() : navItems());
+    var idx = items.findIndex(function(i){ return i.id===id; });
+    var swapIdx = idx + Number(dir);
+    if(swapIdx<0 || swapIdx>=items.length) return;
+    var a = items[idx], b = items[swapIdx];
+    var tmp = a.order; a.order = b.order; b.order = tmp;
+    persistAndPublish();
+  }
+
+  function saveItemFromDraft(){
+    var d = modalDraft;
+    if(!d.label || !d.label.trim()){ showToast('Bitte einen Titel eintragen.','error'); return; }
+    if(d.type==='link' && (!d.url || !d.url.trim())){ showToast('Bitte eine Link-Adresse eintragen.','error'); return; }
+    var url = d.url;
+    if(d.type==='link' && url && !/^https?:\/\//i.test(url)) url = 'https://' + url;
+    if(d._isNew){
+      var id = uniqueId(slugify(d.label));
+      state.items.push({
+        id:id, label:d.label.trim(), type:d.type, url:url||'', content:d.content||'',
+        description:d.description||'', showOnHome:!!d.showOnHome, showInNav:!!d.showInNav, order:d.order
+      });
+    } else {
+      var it = findItem(d.id);
+      if(it){
+        it.label = d.label.trim(); it.type = d.type; it.url = url||''; it.content = d.content||'';
+        it.description = d.description||''; it.showOnHome = !!d.showOnHome; it.showInNav = !!d.showInNav;
+      }
+    }
+    modalDraft = null;
+    persistAndPublish();
+  }
+
+  function deleteItemById(id){
+    if(!confirm('Diesen Punkt wirklich löschen? Das kann nicht rückgängig gemacht werden.')) return;
+    state.items = state.items.filter(function(i){ return i.id!==id; });
+    modalDraft = null;
+    persistAndPublish();
+  }
+
+  async function saveSettingsFromDraft(){
+    var d = modalDraft;
+    if(d.newPassword || d.newPassword2){
+      if(d.newPassword.length < 6){ showToast('Neues Passwort: mindestens 6 Zeichen.','error'); return; }
+      if(d.newPassword !== d.newPassword2){ showToast('Die beiden Passwörter stimmen nicht überein.','error'); return; }
+      var newHash = await sha256Hex(d.newPassword);
+      if(!newHash){ showToast('Passwort ändern braucht eine sichere Verbindung (https).','error'); return; }
+      state.adminPasswordHash = newHash;
+    }
+    state.meta.title = (d.title||'').trim() || state.meta.title;
+    state.meta.tagline = (d.tagline||'').trim();
+    state.home.intro = d.intro||'';
+    state.footer.text = d.footer||'';
+    modalDraft = null;
+    persistAndPublish();
+  }
+
+  /* ---------- persistence ---------- */
+  function buildFullHtml(){
+    document.getElementById('site-data').textContent = safeJson(state);
+    renderModal();
+    renderApp();
+    return '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  }
+
+  function downloadUpdatedFile(){
+    var html = buildFullHtml();
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'index.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    showToast('Datei heruntergeladen: index.html – jetzt auf eurem Webspace hochladen, damit alle die Änderung sehen.');
+  }
+
+  function persistAndPublish(){
+    if(!runsInClaude){
+      downloadUpdatedFile();
+      return;
+    }
+    var html = buildFullHtml();
+    showToast('Speichere …');
+    (async function(){
+      try{
+        if(!artifactNS) artifactNS = await window.claude.use('artifact');
+        if(!artifactNS){
+          showToast('Veröffentlichen ist hier nicht möglich – Datei wird stattdessen heruntergeladen.','error');
+          downloadUpdatedFile();
+          return;
+        }
+        await artifactNS.publish(html);
+      } catch(err){
+        var code = err && err.code;
+        if(code==='conflict'){
+          /* the shell is already reloading every view to the newer version */
+        } else if(code==='not_writer' || code==='not_granted' || code==='consent_required'){
+          claudeCanEdit = false; refreshCanEdit();
+          renderApp();
+          showToast('Du hast keine Bearbeitungsrechte (mehr) für diese Seite.','error');
+        } else if(code==='rate_limited'){
+          showToast('Bitte kurz warten und erneut speichern.','error');
+        } else {
+          showToast('Speichern fehlgeschlagen: ' + ((err && err.message) || 'unbekannter Fehler'), 'error');
+        }
+      }
+    })();
+  }
+
+  /* ---------- event delegation ---------- */
+  document.body.addEventListener('click', function(e){
+    var t = e.target.closest('[data-action]');
+    if(!t){
+      if(e.target.classList && e.target.classList.contains('modal-overlay')) closeModal();
+      return;
+    }
+    var action = t.getAttribute('data-action');
+    if(action==='overlay-close'){ if(e.target===t) closeModal(); return; }
+    if(!canEdit && action!=='overlay-close') { /* safety: ignore admin actions if not admin */ }
+    switch(action){
+      case 'open-settings': openSettings(); break;
+      case 'open-login': openLogin(); break;
+      case 'do-login': doLogin(); break;
+      case 'logout': doLogout(); break;
+      case 'close-modal': closeModal(); break;
+      case 'add-item': openItemEditorPrefill(t.hasAttribute('data-prefill-home'), t.hasAttribute('data-prefill-nav')); break;
+      case 'edit-item': openItemEditor(findItem(t.getAttribute('data-id'))); break;
+      case 'edit-item-from-settings': openItemEditor(findItem(t.getAttribute('data-id'))); break;
+      case 'delete-item': deleteItemById(t.getAttribute('data-id')); break;
+      case 'move-item': moveItem(t.getAttribute('data-id'), t.getAttribute('data-list'), t.getAttribute('data-dir')); break;
+      case 'save-item': saveItemFromDraft(); break;
+      case 'save-settings': saveSettingsFromDraft(); break;
+      case 'set-type':
+        if(modalDraft){ modalDraft.type = t.getAttribute('data-type'); renderModal(); }
+        break;
+      case 'toggle-preview':
+        if(modalDraft){
+          var f = t.getAttribute('data-field');
+          var ta = document.getElementById('ta-' + f);
+          if(ta) modalDraft[f] = ta.value;
+          var key = f + 'PreviewOpen';
+          if(f==='content') modalDraft.previewOpen = !modalDraft.previewOpen;
+          else modalDraft[key] = !modalDraft[key];
+          renderModal();
+        }
+        break;
+      case 'fmt':
+        applyFormat(t.getAttribute('data-target'), t.getAttribute('data-fmt'));
+        break;
+    }
+  });
+
+  document.body.addEventListener('input', function(e){
+    var f = e.target.getAttribute && e.target.getAttribute('data-field');
+    if(!f || !modalDraft) return;
+    if(e.target.type==='checkbox') modalDraft[f] = e.target.checked;
+    else modalDraft[f] = e.target.value;
+  });
+  document.body.addEventListener('change', function(e){
+    var f = e.target.getAttribute && e.target.getAttribute('data-field');
+    if(!f || !modalDraft) return;
+    if(e.target.type==='checkbox') modalDraft[f] = e.target.checked;
+  });
+
+  window.addEventListener('hashchange', function(){ closeModal(); renderApp(); });
+
+  /* ---------- init ---------- */
+  try{ localAuthed = sessionStorage.getItem('sv_admin_authed') === '1'; }catch(e){ localAuthed = false; }
+  refreshCanEdit();
+  renderApp();
+  if(runsInClaude){
+    (async function(){
+      try{
+        var user = await window.claude.use('user');
+        claudeCanEdit = user ? await user.canEdit() : false;
+      } catch(e){ claudeCanEdit = false; }
+      refreshCanEdit();
+      renderApp();
+    })();
+  }
+})();
+</script>
+</body>
+</html>
